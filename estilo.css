@@ -1,0 +1,62 @@
+/* 
+    Document   : estilo
+    Created on : 02/08/2013, 02:44:23
+    Author     : Guilherme
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    text-align:center;
+    margin:0;
+    padding:0;
+}
+
+div {
+    padding:13px;
+    display:block;
+    border:1px solid #ddd;
+    background:#eee;
+    font-size:10px;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#999;
+    margin:0 auto;
+}
+
+div.thumb { 
+    float:left;
+    margin:0 14px 14px 0;
+    padding:0;
+}
+
+div.thumb a {
+    float:left;
+    padding:13px;
+}
+
+div.thumb a:hover {
+    background: blue;
+}
+
+div.thumb img {
+    width:100px;
+    height:100px;
+}
+
+div p {
+    padding:8px 0 0px;
+    margin:0;
+}
+
+div a {
+    color:#666;
+    text-transform:uppercase;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+div a:hover {
+    color: red;
+    text-decoration:underline
+}
+
