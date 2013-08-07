@@ -60,3 +60,13 @@ div a:hover {
     text-decoration:underline
 }
 
+div a .nome-da-imagem {
+    max-width: 60px;
+    color: green;
+}
+
+div .descricao-da-imagem {
+    max-width: 50%;
+    color: green;
+}
+

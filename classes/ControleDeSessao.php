@@ -13,11 +13,15 @@ class ControleDeSessao {
     public static $OPERACOES_PERFIL_OPERADOR = array(
         'alterar_descricao'
     );
-    public static $ALERTA_USUARIO_SENHA_INCORRETO = 'Usuario e/ou senha incorreto.';
+    public static $ALERTA_USUARIO_SENHA_INCORRETO = 'Usuario e/ou senha incorretos.';
     public static $ALERTA_ACESSO_NEGADO = 'Você não tem permissão para efetuar essa operação.';
 
     function __construct() {
         
+    }
+    
+    public function getAlertas() {
+        return $this->alertas;
     }
 
     protected static function getUsuarios() {
@@ -69,6 +73,7 @@ class ControleDeSessao {
         }
 
         $this->declaraUsuarioNaSessao($argumento_usuario);
+        return true;
     }
 
     protected function adicionaAlerta($erro) {
