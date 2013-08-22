@@ -3,6 +3,8 @@ return array(
     'url_da_pasta_root_da_galeria' => 'http://localhost:8080/galeria',
     'pasta_das_imagens' => 'fotos_galeria',
     
+    'caminho_para_a_base_de_dados_sqlite' => 'data/galeria.db',
+    
     'largura_maxima_de_um_thumbnail' => '100',
     'altura_maxima_de_um_thumbnail' => '100',
     

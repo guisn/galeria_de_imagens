@@ -1,4 +1,10 @@
-﻿<?php $configuracao = require_once 'config.php'; ?>
+﻿<?php
+$configuracao = require_once 'config.php';
+
+function __autoload($class_name) {
+    require_once 'classes/' . $class_name . '.php';
+}
+?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -9,39 +15,20 @@
     <body>
 
         <?php
-        
         //URL onde o arquivo PHP vai ficar
         $url_galeria = $configuracao['url_da_pasta_root_da_galeria'] . '/galeria.php';
-
-        //URL onde o arquivo PHP vai ficar
-        $pasta_imagens = $configuracao['pasta_das_imagens'];
-
-        //Início da função
-
-        $fotos = array();
-
-        $caminhos_dos_arquivos = glob($pasta_imagens . '/{*_p.jpg,*_p.gif}', GLOB_BRACE);
-
-        //Loop que percorre a pasta das imagens e armazena o nome de todos os arquivos
-        foreach ($caminhos_dos_arquivos as $imagens) {
-
-            $fotos[] = $imagens;
-        }
+        
+        //$lista_de_imagens = ManipuladorDeImagens::geraListaDeImagensDaPasta($configuracao['pasta_das_imagens']);        
 
         //Verifica se deve exibir a lista ou uma foto
-        if ($_GET["imagens"] == "") {
-
-            //Faz o loop pelo folder de imagens
-            for ($i = 0; $i < count($fotos); $i++) {
-
-                //Cria cada uma das thumbs dentro de uma <div> com link para a imagem grande
-                echo '<div class="thumb">';
-                echo '<a href="' . $url_galeria . '?imagens=' . $i . '">';
-                echo '<img src="' . $fotos[$i] . '">';
-                echo '<div class="nome-da-imagem">' . 'Nome da imagem' . '</div>';
-                echo '</a>';
-                echo '</div>';
-            }
+        if (!isset($_GET["imagem"]) || $_GET["imagem"] === null) {
+            
+            $oImagens = new Imagens();
+            
+            $lista_de_imagens = $oImagens->listaImagensComTodasAsInformacoes();
+            
+            UtilView::geraListaDeThumbnailsComHTML($lista_de_imagens);
+            
         } else {
 
             //Guarda o nome da imagem para montar o link da imagem grande
