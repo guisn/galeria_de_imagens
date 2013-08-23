@@ -16,44 +16,23 @@ function __autoload($class_name) {
 
         <?php
         //URL onde o arquivo PHP vai ficar
-        $url_galeria = $configuracao['url_da_pasta_root_da_galeria'] . '/galeria.php';
+        //$url_galeria = $configuracao['url_da_pasta_root_da_galeria'] . '/galeria.php';
         
         //$lista_de_imagens = ManipuladorDeImagens::geraListaDeImagensDaPasta($configuracao['pasta_das_imagens']);        
 
+        $oImagens = new Imagens();
+        $lista_de_imagens = $oImagens->listaImagensComTodasAsInformacoes();
+        
+//        echo '<pre style="text-align:left">';
+//        var_dump($lista_de_imagens);
+//        echo '</pre>';
+        
+        
         //Verifica se deve exibir a lista ou uma foto
         if (!isset($_GET["imagem"]) || $_GET["imagem"] === null) {
-            
-            $oImagens = new Imagens();
-            
-            $lista_de_imagens = $oImagens->listaImagensComTodasAsInformacoes();
-            
-            UtilView::geraListaDeThumbnailsComHTML($lista_de_imagens);
-            
+            UtilView::geraEMostraListaDeThumbnailsEmHTML($lista_de_imagens);
         } else {
-
-            //Guarda o nome da imagem para montar o link da imagem grande
-            $foto_g = explode("_p", $fotos[$_GET["imagens"]]);
-
-            //Configura os links de próxima e anterior
-            if ($_GET["imagens"] == 0) {
-                $anterior = "";
-            } else {
-                $anterior = $_GET["imagens"] - 1;
-            }
-            if ($_GET["imagens"] == count($fotos) - 1) {
-                $proxima = "";
-            } else {
-                $proxima = $_GET["imagens"] + 1;
-            }
-
-            //Quando solicitada uma imagem em particular, monta a <div> e insere a imagem grande de acordo com o link
-            echo '<div>';
-            echo '<a href="' . $url_galeria . '?imagens=' . $proxima . '">';
-            echo '<img src="' . $foto_g[0] . '_g' . $foto_g[1] . '">';
-            echo '</a>';
-            echo '<div class="descricao-da-imagem">' . 'Aqui vai a descrição da imagem ' . $_GET["imagens"] . '</div>';
-            echo "<p><a href='" . $url_galeria . "?imagens=" . $anterior . "'>Foto anterior</a> | <a href='" . $url_galeria . "'>Voltar para a galeria</a> | <a href='" . $url_galeria . "?imagens=" . $proxima . "'>Próxima foto</a></p>";
-            echo '</div>';
+            UtilView::MostraImagemEmHTML($lista_de_imagens, $_GET['imagem']);
         }
         ?>
     </body>

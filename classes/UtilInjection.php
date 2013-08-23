@@ -39,6 +39,11 @@ class UtilInjection extends Util {
         
         return $argumento;
     }
+    
+    
+    public static function limpaXSS($argumento) {
+        return self::limpa_injection($argumento);
+    }
 
 }
 
