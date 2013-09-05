@@ -1,17 +1,17 @@
 <?php
 return array(
-    'url_da_pasta_root_da_galeria' => 'http://localhost:8080/galeria',
-    'pasta_das_imagens' => 'fotos_galeria',
+    'URL_DA_PASTA_ROOT_DA_GALERIA' => 'http://localhost:8080/galeria',
+    'PASTA_DAS_IMAGENS' => 'fotos_galeria',
     
-    'caminho_para_a_base_de_dados_sqlite' => 'data/galeria.db',
+    'CAMINHO_PARA_A_BASE_DE_DADOS_SQLITE' => 'data/galeria.db',
     
-    'largura_maxima_de_um_thumbnail' => '100',
-    'altura_maxima_de_um_thumbnail' => '100',
+    'LARGURA_MAXIMA_DE_UM_THUMBNAIL' => '100',
+    'ALTURA_MAXIMA_DE_UM_THUMBNAIL' => '100',
     
-    'largura_maxima_de_uma_imagem' => '500',
-    'altura_maxima_de_uma_imagem' => '500',
+    'LARGURA_MAXIMA_DE_UMA_IMAGEM' => '500',
+    'ALTURA_MAXIMA_DE_UMA_IMAGEM' => '500',
     
-    'url_do_arquivo_de_css' => 'estilo-exemplo.css',
+    'URL_DO_ARQUIVO_DE_CSS' => 'estilo-exemplo.css',
     
-    'url_do_formulario_de_login' => 'formulario_de_login-exemplo.html'  //  Fica mais lento mas também pode ser --> 'http://localhost:8080/galeria/formulario_de_login-exemplo.html'
+    'URL_DO_FORMULARIO_DE_LOGIN' => 'publico/html/formulario_de_login-exemplo.php'  //  Fica mais lento mas também pode ser --> 'http://localhost:8080/galeria/formulario_de_login-exemplo.html'
 );

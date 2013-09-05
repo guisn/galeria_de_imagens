@@ -30,12 +30,20 @@ class ControleDeSessao {
     }
 
     private function declaraUsuarioNaSessao($usuario) {
-        session_destroy();
-        session_name('galeria_de_imagens');
-        session_start();
-
+        self::iniciaSessao();
+        
         $_SESSION['USUARIO'] = $usuario;
         $_SESSION['PERFIL'] = $this->verificaPerfilDoUsuario($usuario);
+        
+        return true;
+    }
+    
+    public static function usuarioLogado() {
+        if (isset($_SESSION['USUARIO'])) {
+            return true;
+        }
+        
+        return false;
     }
 
     private static function verificaPerfilDoUsuario($usuario) {
@@ -71,8 +79,11 @@ class ControleDeSessao {
             $this->adicionaAlerta(self::$ALERTA_USUARIO_SENHA_INCORRETO);
             return false;
         }
-
-        $this->declaraUsuarioNaSessao($argumento_usuario);
+        
+        if (!$this->declaraUsuarioNaSessao($argumento_usuario)) {
+            return false;
+        }
+        
         return true;
     }
 
@@ -87,5 +98,22 @@ class ControleDeSessao {
     protected function limpaAlertas() {
         $this->alertas = array();
     }
+    
+    public static function iniciaSessao() {        
+        session_name('galeria_de_imagens');
+        session_start();
+    }
+    
+    public static function reiniciaSessao() {
+        session_destroy();
+        session_name('galeria_de_imagens');
+        session_start();
+    }
+    
+    public static function destroiSessao() {
+        session_destroy();
+    }
+    
+    
 
 }

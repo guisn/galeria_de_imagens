@@ -15,29 +15,29 @@ class ManipuladorDeImagens {
         $size = getimagesize($nome_img);
         $tipo = $size[2];
 
-        # Pega onde está a imagem e carrega	 
-        if ($tipo == 2) { // 2 é o JPG
+        # Pega onde estï¿½ a imagem e carrega	 
+        if ($tipo == 2) { // 2 ï¿½ o JPG
             $img = imagecreatefromjpeg($nome_img);
-        } if ($tipo == 1) { // 1 é o GIF
+        } if ($tipo == 1) { // 1 ï¿½ o GIF
             $img = imagecreatefromgif($nome_img);
-        } if ($tipo == 3) { // 3 é PNG
+        } if ($tipo == 3) { // 3 ï¿½ PNG
             $img = imagecreatefrompng($nome_img);
         }
 
 
         // Se a imagem foi carregada com sucesso, testa o tamanho da mesma
         if ($img) {
-            // Pega o tamanho da imagem e proporção de resize
+            // Pega o tamanho da imagem e proporï¿½ï¿½o de resize
             $width = imagesx($img);
             $height = imagesy($img);
             $scale = min($lar_maxima / $width, $alt_maxima / $height);
 
-            // Se a imagem é maior que o permitido, encolhe ela!
+            // Se a imagem ï¿½ maior que o permitido, encolhe ela!
             if ($scale < 1) {
                 $new_width = floor($scale * $width);
                 $new_height = floor($scale * $height);
 
-                // Cria uma imagem temporária
+                // Cria uma imagem temporï¿½ria
                 $tmp_img = imagecreatetruecolor($new_width, $new_height);
 
                 // Copia e resize a imagem velha na nova
@@ -52,7 +52,7 @@ class ManipuladorDeImagens {
 
         imagedestroy($img);
     }
-    
+
     static public function geraListaDeImagensDaPasta($pasta_imagens) {
         $fotos = array();
 
@@ -61,69 +61,11 @@ class ManipuladorDeImagens {
         //Loop que percorre a pasta das imagens e armazena o nome de todos os arquivos
         foreach ($caminhos_dos_arquivos as $imagem) {
             $arrayCaminhoImagem = explode('/', $imagem);
-            
+
             $fotos[] = $arrayCaminhoImagem[1];
         }
-        
+
         return $fotos;
     }
 
 }
-
-<?php
-
-class ClassName {
-
-    function __construct() {
-        
-    }
-
-    public static function modificaTamanhoDaImagem($nome_img, $lar_maxima, $alt_maxima, $qualidade = 100) {
-
-        if ($qualidade == '') {
-            $qualidade = 100;
-        }
-
-        $size = getimagesize($nome_img);
-        $tipo = $size[2];
-
-        # Pega onde está a imagem e carrega	 
-        if ($tipo == 2) { // 2 é o JPG
-            $img = imagecreatefromjpeg($nome_img);
-        } if ($tipo == 1) { // 1 é o GIF
-            $img = imagecreatefromgif($nome_img);
-        } if ($tipo == 3) { // 3 é PNG
-            $img = imagecreatefrompng($nome_img);
-        }
-
-
-        // Se a imagem foi carregada com sucesso, testa o tamanho da mesma
-        if ($img) {
-            // Pega o tamanho da imagem e proporção de resize
-            $width = imagesx($img);
-            $height = imagesy($img);
-            $scale = min($lar_maxima / $width, $alt_maxima / $height);
-
-            // Se a imagem é maior que o permitido, encolhe ela!
-            if ($scale < 1) {
-                $new_width = floor($scale * $width);
-                $new_height = floor($scale * $height);
-
-                // Cria uma imagem temporária
-                $tmp_img = imagecreatetruecolor($new_width, $new_height);
-
-                // Copia e resize a imagem velha na nova
-                imagecopyresampled($tmp_img, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-
-                // imagedestroy($img);
-                $img = $tmp_img;
-            }
-        }
-
-        imagejpeg($img, '', $qualidade);
-
-        imagedestroy($img);
-    }
-
-}
-
