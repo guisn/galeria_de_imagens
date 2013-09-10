@@ -49,6 +49,7 @@ class ImagemDAO extends DAO {
     }
     
     public function buscaTodasAsImagens() {
+        
         $sql = 'SELECT *
                   FROM imagem
               ORDER BY ordem';
@@ -58,8 +59,7 @@ class ImagemDAO extends DAO {
         if ($retorno === false) {
             throw new Exception('Falha ao carregar as imagens.');
         }
-        
-        return $retorno->fetchAll();
+        return $retorno->fetchAll(2);
     }
 
 }

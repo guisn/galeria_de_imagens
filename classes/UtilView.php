@@ -50,10 +50,20 @@ class UtilView extends Util {
         return array('anterior' => $anterior,
             'proxima' => $proxima);
     }
-    
-    
+
     public static function redirecionaParaUrl($url) {
         header('Location: ' . $url);
+    }
+
+    public static function converteRetornoDBEmJSONParaUI($arrayfetch_do_retorno_da_consulta) {
+        $retorno['total'] = count($arrayfetch_do_retorno_da_consulta);
+        foreach ($arrayfetch_do_retorno_da_consulta as $indice_da_ordem => $colunas_e_valores) {
+            foreach ($colunas_e_valores as $nome_da_coluna => $valor) {
+                $retorno['rows'][$indice_da_ordem][$nome_da_coluna] = $valor;
+            }
+        }
+        
+        return json_encode($retorno);
     }
 
 }

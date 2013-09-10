@@ -4,38 +4,39 @@
     <head>
         <meta charset="UTF-8">
         <title>Basic CRUD Application - jQuery EasyUI CRUD Demo</title>
-        <link rel="stylesheet" type="text/css" href="publico/jquery-easyui-1.3.4/themes/default/easyui.css">
+        <link rel="stylesheet" type="text/css" href="publico/jquery-easyui-1.3.4/themes/black/easyui.css">
         <link rel="stylesheet" type="text/css" href="publico/jquery-easyui-1.3.4/themes/icon.css">
         <script type="text/javascript" src="publico/jquery-easyui-1.3.4/jquery.min.js"></script>
         <script type="text/javascript" src="publico/jquery-easyui-1.3.4/jquery.easyui.min.js"></script>
+
     </head>
     <body>
-        <h2>Imagens</h2>
 
         <!-- Listagem -->
-        <table id="dg" title="Imagens" class="easyui-datagrid" style="width:800px;height:600px;"
-               url="get_users.php"
+        <table id="dg" title="Imagens" class="easyui-datagrid" heigth="900"
+               url="ajax.php?tarefa=listaTodasAsImagens"
                toolbar="#toolbar" pagination="true"
-               rownumbers="true" fitColumns="true" singleSelect="true">
+               rownumbers="true" fitColumns="true" singleSelect="false">
             <thead>
                 <tr>
-                    <th field="firstname" width="50">First Name</th>
-                    <th field="lastname" width="50">Last Name</th>
-                    <th field="phone" width="50">Phone</th>
-                    <th field="email" width="50">Email</th>
+                    <th data-options="field:'id',checkbox:true">ID</th>
+                    <th data-options="field:'imagem'">Imagem</th>
+                    <th data-options="field:'nome'">Nome</th>
+                    <th data-options="field:'descricao'">Descrição</th>
+                    <th data-options="field:'ordem'">Ordem</th>
                 </tr>
             </thead>
         </table>
-        
-        
+
+
         <!-- Listagem > Toolbar -->
         <div id="toolbar">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">Adicionar imagem</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Editar imagem</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remover imagem</a>
         </div>
 
-        
+
         <!-- Popup nova imagem -->
         <div id="dlg" class="easyui-dialog" style="width:400px;height:430px;padding:10px 20px"
              closed="true" buttons="#dlg-buttons">
@@ -60,61 +61,73 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
         </div>
         <script type="text/javascript">
-                var url;
-                function newUser() {
-                    $('#dlg').dialog('open').dialog('setTitle', 'Nova imagem');
-                    $('#fm').form('clear');
-                    url = 'save_user.php';
+            $(window).resize(function() {
+                $('#dg').datagrid('resize');
+            });
+            
+            
+            
+            
+            var url;
+            function newUser() {
+                $('#dlg').dialog('open').dialog('setTitle', 'Nova imagem');
+                $('#fm').form('clear');
+                url = 'save_user.php';
+            }
+            function editUser() {
+                var row = $('#dg').datagrid('getSelected');
+                if (row) {
+                    $('#dlg').dialog('open').dialog('setTitle', 'Edit User');
+                    $('#fm').form('load', row);
+                    url = 'update_user.php?id=' + row.id;
                 }
-                function editUser() {
-                    var row = $('#dg').datagrid('getSelected');
-                    if (row) {
-                        $('#dlg').dialog('open').dialog('setTitle', 'Edit User');
-                        $('#fm').form('load', row);
-                        url = 'update_user.php?id=' + row.id;
+            }
+            function saveUser() {
+                $('#fm').form('submit', {
+                    url: url,
+                    onSubmit: function() {
+                        return $(this).form('validate');
+                    },
+                    success: function(result) {
+                        var result = eval('(' + result + ')');
+                        if (result.errorMsg) {
+                            $.messager.show({
+                                title: 'Error',
+                                msg: result.errorMsg
+                            });
+                        } else {
+                            $('#dlg').dialog('close');        // close the dialog
+                            $('#dg').datagrid('reload');    // reload the user data
+                        }
                     }
-                }
-                function saveUser() {
-                    $('#fm').form('submit', {
-                        url: url,
-                        onSubmit: function() {
-                            return $(this).form('validate');
-                        },
-                        success: function(result) {
-                            var result = eval('(' + result + ')');
-                            if (result.errorMsg) {
-                                $.messager.show({
-                                    title: 'Error',
-                                    msg: result.errorMsg
-                                });
-                            } else {
-                                $('#dlg').dialog('close');        // close the dialog
-                                $('#dg').datagrid('reload');    // reload the user data
-                            }
+                });
+            }
+            function destroyUser() {
+                var row = $('#dg').datagrid('getSelected');
+                if (row) {
+                    $.messager.confirm('Confirm', 'Are you sure you want to destroy this user?', function(r) {
+                        if (r) {
+                            $.post('destroy_user.php', {id: row.id}, function(result) {
+                                if (result.success) {
+                                    $('#dg').datagrid('reload');    // reload the user data
+                                } else {
+                                    $.messager.show({// show error message
+                                        title: 'Error',
+                                        msg: result.errorMsg
+                                    });
+                                }
+                            }, 'json');
                         }
                     });
                 }
-                function destroyUser() {
-                    var row = $('#dg').datagrid('getSelected');
-                    if (row) {
-                        $.messager.confirm('Confirm', 'Are you sure you want to destroy this user?', function(r) {
-                            if (r) {
-                                $.post('destroy_user.php', {id: row.id}, function(result) {
-                                    if (result.success) {
-                                        $('#dg').datagrid('reload');    // reload the user data
-                                    } else {
-                                        $.messager.show({// show error message
-                                            title: 'Error',
-                                            msg: result.errorMsg
-                                        });
-                                    }
-                                }, 'json');
-                            }
-                        });
-                    }
-                }
+            }
         </script>
         <style type="text/css">
+            body {
+                margin: 0px;
+                background-color: black;
+            }
+            
             #fm{
                 margin:0;
                 padding:10px 30px;
