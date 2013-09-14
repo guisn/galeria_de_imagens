@@ -5,7 +5,7 @@ class ConexaoComBD {
 
     function __construct() {
         
-        $dir = 'sqlite:' . CAMINHO_PARA_A_BASE_DE_DADOS_SQLITE;
+        $dir = 'sqlite:../' . CAMINHO_PARA_A_BASE_DE_DADOS_SQLITE;
         $dbh = new PDO($dir);
         
         if (!$dbh) {

@@ -9,8 +9,8 @@ class UtilView extends Util {
 
             //Cria cada uma das thumbs dentro de uma <div> com link para a imagem grande
             echo '<div class="thumb">';
-            echo '<a href="' . URL_DA_PASTA_ROOT_DA_GALERIA . '/galeria.php?imagem=' . $i . '">';
-            echo '<img src="' . PASTA_DAS_IMAGENS . '/' . $lista_de_imagens[$i]['arquivo'] . '">';
+            echo '<a href="' . URL_DA_PASTA_ROOT_DA_GALERIA . '/v/galeria.php?imagem=' . $i . '">';
+            echo '<img src="'  . URL_DA_PASTA_ROOT_DA_GALERIA . PASTA_DAS_IMAGENS . '/' . $lista_de_imagens[$i]['arquivo'] . '">';
             echo '<div class="nome-da-imagem">' . $lista_de_imagens[$i]['nome'] . '</div>';
             echo '</a>';
             echo '</div>';

@@ -14,7 +14,7 @@
 
         <!-- Listagem -->
         <table id="dg" title="Imagens" class="easyui-datagrid" heigth="900"
-               url="ajax.php?tarefa=listaTodasAsImagens"
+               url="ajax_crud_galeria.php?tarefa=listaTodasAsImagens"
                toolbar="#toolbar" pagination="true"
                rownumbers="true" fitColumns="true" singleSelect="false">
             <thead>
@@ -31,9 +31,9 @@
 
         <!-- Listagem > Toolbar -->
         <div id="toolbar">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">Adicionar imagem</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Editar imagem</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remover imagem</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="btnInsereImagem()">Adicionar imagem</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="btnEditarDadosDeImagem()">Editar imagem</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="btnRemoverImagens()">Remover imagem</a>
         </div>
 
 
@@ -65,16 +65,13 @@
                 $('#dg').datagrid('resize');
             });
             
-            
-            
-            
             var url;
-            function newUser() {
+            function btnInsereImagem() {
                 $('#dlg').dialog('open').dialog('setTitle', 'Nova imagem');
                 $('#fm').form('clear');
                 url = 'save_user.php';
             }
-            function editUser() {
+            function btnEditarDadosDeImagem() {
                 var row = $('#dg').datagrid('getSelected');
                 if (row) {
                     $('#dlg').dialog('open').dialog('setTitle', 'Edit User');
@@ -82,7 +79,7 @@
                     url = 'update_user.php?id=' + row.id;
                 }
             }
-            function saveUser() {
+            function btnSalvarDadosDeImagem() {
                 $('#fm').form('submit', {
                     url: url,
                     onSubmit: function() {
@@ -102,24 +99,32 @@
                     }
                 });
             }
-            function destroyUser() {
-                var row = $('#dg').datagrid('getSelected');
-                if (row) {
-                    $.messager.confirm('Confirm', 'Are you sure you want to destroy this user?', function(r) {
-                        if (r) {
-                            $.post('destroy_user.php', {id: row.id}, function(result) {
-                                if (result.success) {
-                                    $('#dg').datagrid('reload');    // reload the user data
+            function btnRemoverImagens() {
+                var rows = $('#dg').datagrid('getChecked');
+                console.log(rows);
+                
+                if (rows.length > 0) {
+                    $.messager.confirm('Confirmação', 'Tem certeza que deseja excluir essa imagem?', function(retorno_do_confirm) {
+                        if (retorno_do_confirm) {
+                            
+                            $.post('ajax_crud_galeria.php', {id: row.id}, function(retorno_do_ajax) {
+                                
+                                if (retorno_do_ajax.success) {
+                                    $('#dg').datagrid('reload');
                                 } else {
-                                    $.messager.show({// show error message
+                                    $.messager.show({
                                         title: 'Error',
-                                        msg: result.errorMsg
+                                        msg: retorno_do_ajax.errorMsg
                                     });
                                 }
+                                
                             }, 'json');
                         }
                     });
+                } else {
+                    $.messager.alert('Aviso','Nenhuma imagem foi selecionada.', 'info');
                 }
+                
             }
         </script>
         <style type="text/css">

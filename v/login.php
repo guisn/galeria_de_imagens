@@ -1,5 +1,5 @@
 <?php
-require_once 'autoload.php';
+require_once '../autoload.php';
 
 if (ControleDeSessao::usuarioLogado()) {
     UtilView::redirecionaParaUrl(URL_DA_PASTA_ROOT_DA_GALERIA . '/area_admin.php');

@@ -1,5 +1,5 @@
 ﻿<?php
-require_once 'autoload.php';
+require_once '../autoload.php';
 
 ControleDeSessao::iniciaSessao();
 ?>
@@ -17,8 +17,8 @@ ControleDeSessao::iniciaSessao();
         //$url_galeria = URL_DA_PASTA_ROOT_DA_GALERIA . '/galeria.php';
         //$lista_de_imagens = ManipuladorDeImagens::geraListaDeImagensDaPasta(PASTA_DAS_IMAGENS);        
 
-        $oImagens = new Imagens();
-        $lista_de_imagens = $oImagens->listaImagensComTodasAsInformacoes();
+        $galeria = new Galeria();
+        $lista_de_imagens = $galeria->listaImagensComTodasAsInformacoes();
 
 //        echo '<pre style="text-align:left">';
 //        var_dump($lista_de_imagens);

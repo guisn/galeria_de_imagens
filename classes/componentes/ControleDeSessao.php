@@ -101,6 +101,7 @@ class ControleDeSessao {
     
     public static function iniciaSessao() {        
         session_name('galeria_de_imagens');
+        session_cache_expire(1);
         session_start();
     }
     

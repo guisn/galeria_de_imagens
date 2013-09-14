@@ -1,6 +1,6 @@
 <?php
 
-class ManipuladorDeImagens {
+class UtilManipulacaoDeImagens {
 
     function __construct() {
         
