@@ -10,7 +10,7 @@ class UtilView extends Util {
             //Cria cada uma das thumbs dentro de uma <div> com link para a imagem grande
             echo '<div class="thumb">';
             echo '<a href="' . URL_DA_PASTA_ROOT_DA_GALERIA . '/v/galeria.php?imagem=' . $i . '">';
-            echo '<img src="'  . URL_DA_PASTA_ROOT_DA_GALERIA . PASTA_DAS_IMAGENS . '/' . $lista_de_imagens[$i]['arquivo'] . '">';
+            echo '<img src="'  . URL_DA_PASTA_ROOT_DA_GALERIA . '/' . PASTA_DAS_IMAGENS . '/' . $lista_de_imagens[$i]['arquivo'] . '">';
             echo '<div class="nome-da-imagem">' . $lista_de_imagens[$i]['nome'] . '</div>';
             echo '</a>';
             echo '</div>';
@@ -18,8 +18,7 @@ class UtilView extends Util {
     }
 
     public static function MostraImagemEmHTML($lista_de_imagens, $index_da_imagem) {
-
-        $configuracao = require 'config.php';
+        
 
         $bordas = self::calculaAnteriorEProximaImagem($index_da_imagem);
 
@@ -29,7 +28,7 @@ class UtilView extends Util {
         echo '<img src="' . URL_DA_PASTA_ROOT_DA_GALERIA . '/' . PASTA_DAS_IMAGENS . '/' . $lista_de_imagens[$index_da_imagem]['arquivo'] . '">';
         echo '</a>';
         echo '<div class="descricao-da-imagem">' . $lista_de_imagens[$index_da_imagem]['descricao'] . '</div>';
-        echo "<p><a href='" . URL_DA_PASTA_ROOT_DA_GALERIA . "/galeria.php?imagem=" . $bordas['anterior'] . "'>Foto anterior</a> | <a href='" . URL_DA_PASTA_ROOT_DA_GALERIA . "'>Voltar para a galeria</a> | <a href='" . URL_DA_PASTA_ROOT_DA_GALERIA . "/galeria.php?imagem=" . $bordas['proxima'] . "'>Próxima foto</a></p>";
+        echo "<p><a href='" . URL_DA_PASTA_ROOT_DA_GALERIA . "/v/galeria.php?imagem=" . $bordas['anterior'] . "'>Foto anterior</a> | <a href='" . URL_DA_PASTA_ROOT_DA_GALERIA . "'>Voltar para a galeria</a> | <a href='" . URL_DA_PASTA_ROOT_DA_GALERIA . "/v/galeria.php?imagem=" . $bordas['proxima'] . "'>Próxima foto</a></p>";
         echo '</div>';
     }
 
