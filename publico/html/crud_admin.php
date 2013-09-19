@@ -4,10 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <title>Basic CRUD Application - jQuery EasyUI CRUD Demo</title>
-        <link rel="stylesheet" type="text/css" href="publico/jquery-easyui-1.3.4/themes/black/easyui.css">
-        <link rel="stylesheet" type="text/css" href="publico/jquery-easyui-1.3.4/themes/icon.css">
-        <script type="text/javascript" src="publico/jquery-easyui-1.3.4/jquery.min.js"></script>
-        <script type="text/javascript" src="publico/jquery-easyui-1.3.4/jquery.easyui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="../publico/jquery-easyui-1.3.4/themes/black/easyui.css">
+        <link rel="stylesheet" type="text/css" href="../publico/jquery-easyui-1.3.4/themes/icon.css">
+        <script type="text/javascript" src="../publico/jquery-easyui-1.3.4/jquery.min.js"></script>
+        <script type="text/javascript" src="../publico/jquery-easyui-1.3.4/jquery.easyui.min.js"></script>
 
     </head>
     <body>
@@ -71,14 +71,20 @@
                 $('#fm').form('clear');
                 url = 'save_user.php';
             }
+            
+            
+            
             function btnEditarDadosDeImagem() {
-                var row = $('#dg').datagrid('getSelected');
+                var row = $('#dg').datagrid('getChecked');
                 if (row) {
-                    $('#dlg').dialog('open').dialog('setTitle', 'Edit User');
+                    $('#dlg').dialog('open').dialog('setTitle', 'Editar dados da imagem');
                     $('#fm').form('load', row);
                     url = 'update_user.php?id=' + row.id;
                 }
             }
+            
+            
+            
             function btnSalvarDadosDeImagem() {
                 $('#fm').form('submit', {
                     url: url,
@@ -99,26 +105,33 @@
                     }
                 });
             }
+            
+            
+            
+            
             function btnRemoverImagens() {
                 var rows = $('#dg').datagrid('getChecked');
-                console.log(rows);
+                //console.log(rows[0]);
                 
                 if (rows.length > 0) {
                     $.messager.confirm('Confirmação', 'Tem certeza que deseja excluir essa imagem?', function(retorno_do_confirm) {
+                        
                         if (retorno_do_confirm) {
                             
-                            $.post('ajax_crud_galeria.php', {id: row.id}, function(retorno_do_ajax) {
+                            $.post('ajax_crud_galeria.php', {'tarefa': 'excluiImagens', 'parametros_da_tarefa': rows}, function(retorno_do_ajax) {
                                 
-                                if (retorno_do_ajax.success) {
+                                console.log(retorno_do_ajax);
+                                if (retorno_do_ajax.sucesso) {
                                     $('#dg').datagrid('reload');
                                 } else {
                                     $.messager.show({
                                         title: 'Error',
-                                        msg: retorno_do_ajax.errorMsg
+                                        msg: retorno_do_ajax.falha
                                     });
                                 }
                                 
                             }, 'json');
+                            
                         }
                     });
                 } else {

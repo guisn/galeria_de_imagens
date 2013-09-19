@@ -26,7 +26,7 @@ class ControleDeSessao {
 
     protected static function getUsuarios() {
 
-        return require 'usuarios.php';
+        return require '../data/usuarios.php';
     }
 
     private function declaraUsuarioNaSessao($usuario) {

@@ -1,7 +1,7 @@
 <?php
 class UtilInjection extends Util {
 
-    static function anti_injection_geral($argumento) {
+    public static function anti_injection_geral($argumento) {
 
         if (is_array($argumento)) {
             $array_seguro = self::anti_injection_para_array_de_um_nivel($argumento);
@@ -15,7 +15,7 @@ class UtilInjection extends Util {
         return $argumento;
     }
 
-    static function anti_injection_para_array_de_um_nivel(array $argumento) {
+    protected static function anti_injection_para_array_de_um_nivel(array $argumento) {
         
         foreach ($argumento as $chave => $valor) {
             

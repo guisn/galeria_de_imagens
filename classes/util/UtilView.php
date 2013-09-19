@@ -51,7 +51,10 @@ class UtilView extends Util {
     }
 
     public static function redirecionaParaUrl($url) {
-        header('Location: ' . $url);
+        //header('Location: ' . $url);
+        echo '<script language= "JavaScript">
+                  location.href="' . $url . '"
+              </script>';
     }
 
     public static function converteRetornoDBEmJSONParaUI($arrayfetch_do_retorno_da_consulta) {

@@ -3,6 +3,10 @@ include_once '../autoload.php';
 
 error_reporting(0);
 
-$Controlador = new GaleriaControlador();
+$ControladorGaleria = new GaleriaControlador();
 
-echo $Controlador->executa($_REQUEST['tarefa'], $_REQUEST['parametros_da_tarefa']);
+try {
+    echo $ControladorGaleria->executa($_REQUEST['tarefa'], $_REQUEST['parametros_da_tarefa']);    
+} catch (Exception $exc) {
+    echo "{falha: '" . $exc->getMessage() . "'}";
+}

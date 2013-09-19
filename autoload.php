@@ -1,6 +1,6 @@
 <?php
 // Charset oficial do sistema
-header('Content-Type: text/html; charset=utf-8');
+//header('Content-Type: text/html; charset=utf-8');
 
 // Carrega configurações do sistema
 foreach (require_once('config.php') as $nome_da_configuracao => $valor) {
@@ -9,9 +9,9 @@ foreach (require_once('config.php') as $nome_da_configuracao => $valor) {
 
 // Error reporting padrão do sistema
 // DEBUG
-error_reporting(E_ERROR);
+//error_reporting(E_ALL);
 // PROD
-//error_reporting(0);
+error_reporting(0);
 
 function __autoload($class_name) {
     

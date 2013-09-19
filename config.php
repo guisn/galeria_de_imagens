@@ -13,5 +13,5 @@ return array(
     
     'URL_DO_ARQUIVO_DE_CSS' => 'publico/css/estilo-exemplo.css',
     
-    'URL_DO_FORMULARIO_DE_LOGIN' => 'publico/html/formulario_de_login-exemplo.php'  //  Fica mais lento mas também pode ser --> 'http://localhost:8080/galeria/formulario_de_login-exemplo.html'
+    'URL_DO_FORMULARIO_DE_LOGIN' => '../publico/html/formulario_de_login-exemplo.php'  //  Fica mais lento mas também pode ser --> 'http://localhost:8080/galeria/formulario_de_login-exemplo.html'
 );
