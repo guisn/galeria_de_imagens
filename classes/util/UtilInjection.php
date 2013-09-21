@@ -32,6 +32,7 @@ class UtilInjection extends Util {
     protected static function limpa_injection($argumento) {
         // remove palavras que contenham sintaxe sql
         //$valor = preg_replace(sql_regcase("/(from|select|insert|delete|where|drop table|show tables|#|\*|--|\\\\)/"), "", $sql);
+        
         $argumento = trim($argumento); //limpa espaços vazio
         $argumento = strip_tags($argumento); //tira tags html e php
         $argumento = addslashes($argumento); //Adiciona barras invertidas a uma string

@@ -76,25 +76,23 @@ class ImagemDAO extends DAO {
         return true;
     }
     
-    public function atualizaImagem($campos_e_valores) {
+    public function insereImagem($campos_e_valores) {
         
         foreach ($campos_e_valores as $campo => $valor) {
-            $sets = $campo . '=' . UtilInjection::anti_injection_geral($valor);
-            echo '<pre>';
-            var_dump($sets);
-            echo '</pre>';
-            exit;
+            $campos[] = UtilInjection::anti_injection_geral($campo);
+            $valores[] = UtilInjection::anti_injection_geral($valor);
         }
         
         
-        $sql = 'UPDATE imagem ' . implode(',', UtilInjection::anti_injection_geral($campos)) . ')
-                 WHERE id IN (' . implode(',', UtilInjection::anti_injection_geral($ids_das_imagens)) . ')';
+        $sql = 'INSERT INTO imagem (' . implode(',', $campos) . ')
+                VALUES (' . implode(',', $valores) . ')';
 
         //$sql = 'select count() from imagem';
         $retorno = $this->CONEXAO()->query($sql);
         if ($retorno === false) {
-            throw new Exception('Falha ao excluir imagens.');
+            throw new Exception('Falha ao inserir sua imagem no banco de dados.');
         }
+        
         return true;
     }
 

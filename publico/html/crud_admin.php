@@ -15,8 +15,9 @@
         <!-- Listagem -->
         <table id="dg" title="Imagens" class="easyui-datagrid" heigth="900"
                url="ajax_crud_galeria.php?tarefa=listaTodasAsImagens"
-               toolbar="#toolbar" pagination="true"
-               rownumbers="true" fitColumns="true" singleSelect="false">
+               toolbar="#toolbar" pagination="false"
+               rownumbers="true" fitColumns="true" singleSelect="false"
+               loadMsg="Aguarde...">
             <thead>
                 <tr>
                     <th data-options="field:'id',checkbox:true">ID</th>
@@ -32,7 +33,9 @@
         <!-- Listagem > Toolbar -->
         <div id="toolbar">
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="btnInsereImagem()">Adicionar imagem</a>
+            <!--
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="btnEditarDadosDeImagem()">Editar imagem</a>
+            -->
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="btnRemoverImagens()">Remover imagem</a>
         </div>
 
@@ -41,14 +44,18 @@
         <div id="dlg" class="easyui-dialog" style="width:400px;height:430px;padding:10px 20px"
              closed="true" buttons="#dlg-buttons">
             <div class="ftitle">Informações da imagem</div>
-            <form id="fm" name="frmNovaImagem" method="post" enctype="multipart/form-data" novalidate>
+            <form id="form" name="frmNovaImagem" method="post" enctype="multipart/form-data">
                 <div class="fitem">
                     <label>Imagem:</label>
-                    <input type="file" name="arquivo_da_imagem" class="easyui-validatebox" required="true">
+                    <input type="file" name="arquivo_da_imagem">
                 </div>
                 <div class="fitem">
                     <label>Nome:</label>
-                    <input name="nome" class="easyui-validatebox" size="40" required="true">
+                    <input name="nome" class="easyui-validatebox" size="40" data-options="required:true">
+                </div>
+                <div class="fitem">
+                    <label title="Ordem em que aparece na galeria.">Ordem:</label><br>
+                    <input name="ordem" size="3">
                 </div>
                 <div class="fitem">
                     <label>Descrição:</label>
@@ -57,10 +64,12 @@
             </form>
         </div>
         <div id="dlg-buttons">
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">Save</a>
-            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancel</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="btnSalvaDadosDeImagem()">Salvar</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">Cancelar</a>
         </div>
         <script type="text/javascript">
+           
+            
             $(window).resize(function() {
                 $('#dg').datagrid('resize');
             });
@@ -68,42 +77,54 @@
             var url;
             function btnInsereImagem() {
                 $('#dlg').dialog('open').dialog('setTitle', 'Nova imagem');
-                $('#fm').form('clear');
-                url = 'save_user.php';
+                $('#form').form('clear');
+                url = 'ajax_crud_galeria.php?tarefa=insereImagem';
             }
             
-            
-            
             function btnEditarDadosDeImagem() {
+                /*
                 var row = $('#dg').datagrid('getChecked');
                 if (row) {
                     $('#dlg').dialog('open').dialog('setTitle', 'Editar dados da imagem');
-                    $('#fm').form('load', row);
+                    $('#form').form('load', row);
                     url = 'update_user.php?id=' + row.id;
                 }
+                */
             }
             
-            
-            
-            function btnSalvarDadosDeImagem() {
-                $('#fm').form('submit', {
+            function btnSalvaDadosDeImagem() {
+                $('#form').form({
                     url: url,
-                    onSubmit: function() {
-                        return $(this).form('validate');
-                    },
-                    success: function(result) {
-                        var result = eval('(' + result + ')');
-                        if (result.errorMsg) {
-                            $.messager.show({
-                                title: 'Error',
-                                msg: result.errorMsg
-                            });
-                        } else {
-                            $('#dlg').dialog('close');        // close the dialog
-                            $('#dg').datagrid('reload');    // reload the user data
+                    onSubmit: function(){
+                        var isValid = $(this).form('validate');
+                        $.messager.progress();
+                        
+                        if (!isValid) {
+                            $.messager.progress('close');
+                            return false;
                         }
+                    },
+                            
+                    success:function(retorno_do_ajax){
+                        var objetoJSON = eval('(' + retorno_do_ajax + ')');
+                        
+                        if (objetoJSON.falha != null) {
+                            $.messager.progress('close');
+                            alert(objetoJSON.falha);
+                            return false;
+                        }
+                        
+                        $.messager.progress('close');
+                        $.messager.alert('Sucesso', 'A imagem foi inserida com sucesso!');
+                        
+                        $('#dlg').dialog('close');
+                        $('#form').form('clear');
+                        $('#dg').datagrid('reload');
                     }
                 });
+                
+                // submit the form
+                $('#form').submit();
             }
             
             
@@ -114,7 +135,7 @@
                 //console.log(rows[0]);
                 
                 if (rows.length > 0) {
-                    $.messager.confirm('Confirmação', 'Tem certeza que deseja excluir essa imagem?', function(retorno_do_confirm) {
+                    $.messager.confirm('Confirmação', 'Tem certeza que deseja excluir as imagens selecionadas?', function(retorno_do_confirm) {
                         
                         if (retorno_do_confirm) {
                             
@@ -146,7 +167,7 @@
                 background-color: black;
             }
             
-            #fm{
+            #form{
                 margin:0;
                 padding:10px 30px;
             }
